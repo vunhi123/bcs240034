@@ -1,0 +1,18 @@
+@model MID_BCS240034.Models.EventImage_BCS240034
+@{
+    ViewData["Title"] = "Xóa ảnh";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3>Xóa ảnh</h3>
+        <p>Bạn có chắc muốn xóa ảnh này không?</p>
+        <img src="@Model.ImageUrl" class="img-fluid mb-3" />
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Xóa</button>
+            <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+        </form>
+    </div>
+</div>

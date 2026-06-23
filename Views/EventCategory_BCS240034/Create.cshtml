@@ -1,0 +1,29 @@
+@model MID_BCS240034.Models.EventCategory_BCS240034
+@{
+    ViewData["Title"] = "Thêm loại sự kiện";
+}
+
+<div class="card shadow">
+    <div class="card-body">
+        <h3 class="card-title mb-3">THÊM LOẠI SỰ KIỆN</h3>
+        <form asp-action="Create" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+            </div>
+            <div class="text-end">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

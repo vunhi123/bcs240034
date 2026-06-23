@@ -1,0 +1,13 @@
+@model MID_BCS240034.Models.EventCategory_BCS240034
+@{
+    ViewData["Title"] = "Chi tiết loại";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h3>@Model.Name</h3>
+        <p>@Model.Description</p>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+@model IEnumerable<MID_BCS240034.Models.Event_BCS240034>
+@{
+    ViewData["Title"] = "Danh sách sự kiện";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>DANH SÁCH SỰ KIỆN</h2>
+    <a class="btn btn-primary" asp-action="Create">Thêm mới</a>
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+        <input name="search" value="@Request.Query["search"]" class="form-control" placeholder="Nhập tên hoặc địa điểm..." />
+    </div>
+    <div class="col-md-2">
+        <select name="categoryId" class="form-select">
+            <option value="">Tất cả loại</option>
+            @foreach (var c in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewData["EventCategoryId"])
+            {
+                <option value="@c.Value" @(Request.Query["categoryId"] == c.Value ? "selected" : "")>@c.Text</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <input type="date" name="fromDate" value="@Request.Query["fromDate"]" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <input type="date" name="toDate" value="@Request.Query["toDate"]" class="form-control" />
+    </div>
+    <div class="col-md-2">
+        <select name="sortOrder" class="form-select">
+            <option value="">Ngày bắt đầu gần nhất</option>
+            <option value="priceAsc" @(Request.Query["sortOrder"]=="priceAsc"?"selected":"")>Giá tăng dần</option>
+            <option value="priceDesc" @(Request.Query["sortOrder"]=="priceDesc"?"selected":"")>Giá giảm dần</option>
+        </select>
+    </div>
+    <div class="col-12 text-end mt-2">
+        <button class="btn btn-outline-primary">Tìm kiếm</button>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Loại</th>
+            <th>Giá</th>
+            <th>Bắt đầu</th>
+            <th>Kết thúc</th>
+            <th>Địa điểm</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.EventCategory?.Name</td>
+            <td>@String.Format("{0:N0}", item.Price) đ</td>
+            <td>@item.StartDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.EndDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.Location</td>
+            <td>
+                @if(DateTime.Now < item.StartDate)
+                {
+                    <span class="badge bg-warning">Sắp diễn ra</span>
+                }
+                else if(DateTime.Now > item.EndDate)
+                {
+                    <span class="badge bg-danger">Đã kết thúc</span>
+                }
+                else
+                {
+                    <span class="badge bg-success">Đang diễn ra</span>
+                }
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Detail</a>
+                <a class="btn btn-sm btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
